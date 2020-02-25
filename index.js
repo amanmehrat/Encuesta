@@ -2,11 +2,12 @@ const express = require("express");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
+const billingRoutes = require("./routes/billingRoutes");
 const keys = require("./config/keys");
 require("./models/User");
 require("./services/passport");
 const cookieSession = require("cookie-session");
-
+const bodyParser = require("body-parser")
 //Connection For MongoDB
 mongoose
   .connect(keys.mongoURI, {
@@ -17,10 +18,22 @@ mongoose
   .catch(err => console.log("Caught", err.stack));
 
 const app = express();
+app.use(bodyParser.json())
 app.use(cookieSession({ maxAge: 60 * 60 * 70, keys: [keys.cookieKey] }));
 app.use(passport.initialize());
 app.use(passport.session());
 authRoutes(app);
+billingRoutes(app);
+
+
+if (process.env.NODE_ENV === "production") {
+
+  app.use(express.static(path.join(__dirname, 'client/build')));//Serve Static file declaration
+  app.get('*', (req, res) => { res.sendfile(path.join(__dirname = 'client/build/index.html')); })//Unmmapped Route build mode
+
+}
+
+
 
 //const { PORT = 5000 } = process.env.PORT;
 const PORT = process.env.PORT || 5000;
