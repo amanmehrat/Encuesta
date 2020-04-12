@@ -13,7 +13,7 @@ class SurveyList extends Component {
                 <div>Title: {surveys.title}</div>
                 <div>Subject: {surveys.body}</div>
                 <div>Yes : {surveys.yes}</div>
-                <div>No : {surveys.No}</div>
+                <div>No : {surveys.no}</div>
             </div>
             );
         })
