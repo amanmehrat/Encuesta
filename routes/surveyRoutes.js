@@ -37,7 +37,7 @@ module.exports = app => {
                 }
             })
             .compact()
-            .uniqBy('email', surveyId)
+            .uniqBy('email', 'surveyId')
             .values();
 
         uniqueEvents.map(async ({ email, surveyId, choice }) => {
