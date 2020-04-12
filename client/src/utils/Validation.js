@@ -18,4 +18,4 @@ class Validation {
     }
 }
 
-module.exports = Validation;
+export default Validation;
