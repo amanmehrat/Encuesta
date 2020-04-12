@@ -31,7 +31,7 @@ module.exports = app => {
         const uniqueEvents = _.chain(req.body)
             .filter(obj => obj.event == 'click')
             .map(({ email, url }) => {
-                const match = path.test(new URL(url).pathname);
+                const match = path.test(URL.parse(url, true).pathname);
                 if (match) {
                     return { email, surveyId: match.surveyId, choice: match.choice }
                 }
