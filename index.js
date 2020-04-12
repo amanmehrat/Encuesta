@@ -2,11 +2,16 @@ const path = require("path");
 const express = require("express");
 const passport = require("passport");
 const mongoose = require("mongoose");
+
+require("./models/User");
+require("./models/Survey");
+require("./services/passport");
+
 const authRoutes = require("./routes/authRoutes");
 const billingRoutes = require("./routes/billingRoutes");
+const surveyRoutes = require("./routes/surveyRoutes");
 const keys = require("./config/keys");
-require("./models/User");
-require("./services/passport");
+
 const cookieSession = require("cookie-session");
 const bodyParser = require("body-parser")
 //Connection For MongoDB
@@ -25,6 +30,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 authRoutes(app);
 billingRoutes(app);
+surveyRoutes(app);
 
 
 if (process.env.NODE_ENV === "production") {
