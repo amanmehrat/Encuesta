@@ -38,7 +38,7 @@ module.exports = app => {
             })
             .compact()
             .uniqBy('email', 'surveyId')
-            .values();
+            .value();
 
         uniqueEvents.map(async ({ email, surveyId, choice }) => {
             if (mongoose.Types.ObjectId.isValid(surveyId)) {
