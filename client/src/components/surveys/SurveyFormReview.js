@@ -4,12 +4,18 @@ import formFields from '../surveys/surveyFormFields';
 import { withRouter } from 'react-router-dom';
 import * as actions from '../../action';
 
-const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
+const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history, data }) => {
+
+    console.log("2--------------- in SurveyFormReview Function");
+    console.log(formValues);
+    console.log(data);
     const reviewFields = formFields.map(({ name, label }) => {
         return (
             <div key={name}>
-                <label>{label}</label>
-                <div>{formValues[name]}</div>
+                <div>
+                    <label>{label}</label>
+                    <div>{formValues[name]}</div>
+                </div>
             </div>
         );
     })
@@ -19,6 +25,18 @@ const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
         <div>
             <div>Please Check Your Entries</div>
             {reviewFields}
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recipients Emails Are:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.map(email => (email.length > 0 && <tr key={email[0]}><td>{email[0]}</td></tr>))}
+                    </tbody>
+                </table>
+            </div>
             <button onClick={onCancel} className="btn-flat blue text-white">Back</button>
             <button onClick={() => submitSurvey(formValues, history)} className="btn-flat blue text-white">Submit</button>
         </div>
@@ -27,7 +45,7 @@ const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
 
 
 const mapStateToProps = (state) => {
-    console.log(state);
+    console.log(state.form.SurveyForm.values);
     return { formValues: state.form.SurveyForm.values };
 }
 

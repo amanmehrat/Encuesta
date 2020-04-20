@@ -8,14 +8,17 @@ export const fetchUser = () => async dispatch => {
 
 export const handleStripeToken = token => async dispatch => {
     const res = await axios.post('/api/stripe', token);
-    console.log(res);
+    //console.log(res);
     dispatch({ type: FETCH_USER, payload: res.data });
 };
 
 export const submitSurvey = (surveyValues, history) => async dispatch => {
-    console.log(history);
+    //console.log(history);
+    //console.log("4--------------- in submitSurvey Function");
+    //console.log(surveyValues);
+    //console.log(surveyValues.recipientExcel);
     const res = await axios.post('/api/survey', surveyValues);
-    console.log(res);
+    //console.log(res);
     history.push('/surveys');
     dispatch({ type: FETCH_USER, payload: res.data });
 };
