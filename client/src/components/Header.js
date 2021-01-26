@@ -1,40 +1,47 @@
-import React, { Component } from "react";
-import { connect } from 'react-redux';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Payment from './Payment';
 
-class Header extends Component {
-  renderLogin() {
-    switch (this.props.auth) {
-      case null:
-        return "";
-      case false:
-        return <li><a href="/auth/google">Login with google</a></li>
-      default:
-        return [
-          <li key="1"><Payment /></li>,
-          <li key="2" style={{ margin: "0 10px" }}>Credits : {this.props.auth.credits}</li>,
-          <li key="3"><a href="/api/logout">Logout</a></li>
-        ]
+import allActions from '../action';
+
+const Header = () => {
+  const auth = useSelector(state => state.auth.user);
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const dispatch = useDispatch();
+  //if (window.location.pathname.toLowerCase() === '/auth') return null;
+
+  if (isLoggedIn == null) return null;
+
+
+  const renderLogin = () => {
+    const logout = () => {
+      dispatch(allActions.userActions.LogoutUser());
+    }
+
+    if (isLoggedIn) {
+      return [
+        <li key="1"><Payment /></li>,
+        <li key="2" style={{ margin: "0 10px" }}>Credits : {auth.credits}</li>,
+        <li key="3"><button onClick={logout}>Logout</button></li>
+      ]
+    } else {
+      return [
+        <li key="1"><Link to="/auth/google">Login with google</Link></li>,
+        <li key="2"><Link to="/auth">Login</Link></li>
+      ]
     }
   }
-  render() {
-    return (
-      <nav>
-        <div className="nav-wrapper">
-          <Link to={this.props.auth ? "/surveys" : "/"} className="left brand-logo">Emaily</Link>
-          <ul className="right">
-            {this.renderLogin()}
-          </ul>
-        </div>
-      </nav>
-    );
-  }
 
+  return (
+    <nav>
+      <div className="nav-wrapper">
+        <Link to={isLoggedIn ? "/surveys" : "/"} className="left brand-logo">Emaily</Link>
+        <ul className="right">
+          {renderLogin()}
+        </ul>
+      </div>
+    </nav>
+  );
 }
-
-function mapStateToProp(state) {
-  return { auth: state.auth };
-}
-
-export default connect(mapStateToProp)(Header);
+export default Header;

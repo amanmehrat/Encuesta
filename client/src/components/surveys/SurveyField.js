@@ -3,7 +3,6 @@ import React from 'react';
 
 
 const surveyField = (({ label, input, meta }) => {
-    //console.log(meta);
     return (
         <div>
             <label>{label}</label>

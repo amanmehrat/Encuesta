@@ -28,12 +28,9 @@ class Mailer extends helper.Mail {
 
     addClickTracking() {
         const trackingSettings = new helper.TrackingSettings();
-        //console.log(trackingSettings);
         const clickTracking = new helper.ClickTracking(true, true);
 
         trackingSettings.setClickTracking(clickTracking);
-        //console.log(clickTracking);
-        //console.log(trackingSettings);
         this.addTrackingSettings(trackingSettings);
     }
 
@@ -52,7 +49,6 @@ class Mailer extends helper.Mail {
             body: this.toJSON()
         })
 
-        //console.log("---------------------------------------------------------------" + request)
         try {
             //listing messages in users mailbox 
             const response = await this.sgApi.API(request);

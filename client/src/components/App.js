@@ -1,33 +1,42 @@
-import React, { Component } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import allActions from '../action';
+import { useDispatch } from 'react-redux';
 
-import { connect } from 'react-redux';
-import * as actions from '../action/index';
+import PrivateRoute from './Routes/PrivateRoute';
+import RestricatedRoute from './Routes/RestricatedRoute';
+
 
 import Header from "./Header";
+import Login from './Login';
 import Dashboard from './Dashboard';
 import SurveyNew from './surveys/SurveyNew';
 
 const Landing = () => <h2>Landing</h2>;
 
-class App extends Component {
-    componentDidMount() {
-        this.props.fetchUser();
-    }
-    render() {
-        return (
-            <div>
-                <BrowserRouter>
-                    <div>
-                        <Header />
+
+const App = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(allActions.userActions.FetchUser());
+    }, [dispatch]);
+
+    return (
+        <div>
+            <BrowserRouter>
+                <div>
+                    <Header />
+                    <Switch>
                         <Route exact path="/" component={Landing} />
-                        <Route exact path="/surveys" component={Dashboard} />
-                        <Route path="/surveys/new" component={SurveyNew} />
-                    </div>
-                </BrowserRouter>
-            </div>
-        );
-    }
+                        <RestricatedRoute exact path="/auth" component={Login} />
+                        <PrivateRoute exact path="/surveys" component={Dashboard} />
+                        <PrivateRoute exact path="/surveys/new" component={SurveyNew} />
+                    </Switch>
+                </div>
+            </BrowserRouter>
+        </div>
+    );
 };
 
-export default connect(null, actions)(App);//null is props;
+export default App;

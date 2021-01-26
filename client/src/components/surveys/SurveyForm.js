@@ -34,8 +34,6 @@ class SurveyForm extends Component {
 }
 
 const validate = (values) => {
-    console.log("1--------------- in Validate Function");
-    console.log(values);
     let errors = {}
     errors.recipients = Validation.validateEmails(values.recipients || '');
     formFiels.forEach(({ name, noValueError }) => {

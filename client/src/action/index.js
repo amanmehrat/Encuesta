@@ -1,29 +1,12 @@
-import axios from 'axios';
-import { FETCH_USER, FETCH_SURVEYS } from './types';
 
-export const fetchUser = () => async dispatch => {
-    const res = await axios.get('/api/current_user')
-    dispatch({ type: FETCH_USER, payload: res.data });
-};
 
-export const handleStripeToken = token => async dispatch => {
-    const res = await axios.post('/api/stripe', token);
-    //console.log(res);
-    dispatch({ type: FETCH_USER, payload: res.data });
-};
 
-export const submitSurvey = (surveyValues, history) => async dispatch => {
-    //console.log(history);
-    //console.log("4--------------- in submitSurvey Function");
-    //console.log(surveyValues);
-    //console.log(surveyValues.recipientExcel);
-    const res = await axios.post('/api/survey', surveyValues);
-    //console.log(res);
-    history.push('/surveys');
-    dispatch({ type: FETCH_USER, payload: res.data });
-};
+import surveyActions from './surveyActions'
+import userActions from './userActions'
 
-export const fetchSurveys = () => async dispatch => {
-    const res = await axios.get('/api/surveys')
-    dispatch({ type: FETCH_SURVEYS, payload: res.data });
-};
+const allActions = {
+    surveyActions,
+    userActions
+}
+
+export default allActions;

@@ -6,9 +6,6 @@ import * as actions from '../../action';
 
 const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history, data }) => {
 
-    console.log("2--------------- in SurveyFormReview Function");
-    console.log(formValues);
-    console.log(data);
     const reviewFields = formFields.map(({ name, label }) => {
         return (
             <div key={name}>
@@ -45,7 +42,6 @@ const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history, data })
 
 
 const mapStateToProps = (state) => {
-    console.log(state.form.SurveyForm.values);
     return { formValues: state.form.SurveyForm.values };
 }
 

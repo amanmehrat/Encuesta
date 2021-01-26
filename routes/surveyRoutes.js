@@ -26,7 +26,6 @@ module.exports = app => {
     });
 
     app.post("/api/survey/webhooks", (req, res) => {
-        //console.log(req.body);
         const path = new Path('/api/survey/:surveyId/:choice');
         const uniqueEvents = _.chain(req.body)
             .filter(obj => obj.event == 'click')
@@ -69,9 +68,7 @@ module.exports = app => {
             dateSent: Date.now(),
             _user: req.user.id
         });
-        console.log(survey.recipients);
         const mailer = new Mailer(survey, surveyTemplate(survey));
-        //console.log(mailer);
         try {
             await mailer.send();
             await survey.save();

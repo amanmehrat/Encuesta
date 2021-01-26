@@ -25,3 +25,7 @@ yarn-error.log*
 
 .env.development
 .env.production
+
+
+fonts
+images

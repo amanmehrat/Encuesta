@@ -3,9 +3,6 @@ import StripeCheckout from 'react-stripe-checkout';
 import * as actions from '../action/index';
 import { connect } from 'react-redux';
 class Payment extends Component {
-
-
-
     render() {
         return <StripeCheckout
             name="Emaily"

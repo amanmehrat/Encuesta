@@ -1,33 +1,28 @@
 const path = require("path");
 const express = require("express");
-const passport = require("passport");
-const mongoose = require("mongoose");
+const mongoUtil = require("./db/MongoDB");
+const app = express();
+const cors = require('cors');
 
 require("./models/User");
 require("./models/Survey");
 require("./services/passport");
 
+app.use(cors());
+
 const authRoutes = require("./routes/authRoutes");
 const billingRoutes = require("./routes/billingRoutes");
 const surveyRoutes = require("./routes/surveyRoutes");
-const keys = require("./config/keys");
 
-const cookieSession = require("cookie-session");
-const bodyParser = require("body-parser")
 //Connection For MongoDB
-mongoose
-  .connect(keys.mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(() => console.log("Connected"))
-  .catch(err => console.log("Caught", err.stack));
+mongoUtil.connectToServer();
 
-const app = express();
-app.use(bodyParser.json())
-app.use(cookieSession({ maxAge: 60 * 60 * 70, keys: [keys.cookieKey] }));
-app.use(passport.initialize());
-app.use(passport.session());
+//body parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
+//app.use(cookieSession({ maxAge: 60 * 60 * 70, keys: [keys.cookieKey] }));
+//app.use(passport.initialize());
+//app.use(passport.session());
 authRoutes(app);
 billingRoutes(app);
 surveyRoutes(app);
